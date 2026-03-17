@@ -1,4 +1,4 @@
-FROM python:3.11-slim
+FROM python:3.11
 
 # Install Node.js for building the React frontend
 RUN apt-get update && apt-get install -y curl \
@@ -10,7 +10,7 @@ WORKDIR /app
 
 # Install and build Frontend
 COPY frontend/package*.json ./frontend/
-RUN cd frontend && npm install --legacy-peer-deps
+RUN cd frontend && npm install --no-package-lock --legacy-peer-deps
 COPY frontend/ ./frontend/
 RUN cd frontend && npm run build
 
