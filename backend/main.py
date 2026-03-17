@@ -8,7 +8,7 @@ from fastapi.responses import FileResponse
 from typing import List
 
 from pdf_extractor import extract_texts_from_pdfs
-from ai_service import analyze_with_ai
+from gemini_service import analyze_with_gemini
 from excel_generator import generate_excel
 from word_generator import generate_word_memo
 
@@ -68,13 +68,13 @@ async def analyze(
     except ValueError as e:
         raise HTTPException(status_code=422, detail=str(e))
     
-    # Analyze with Groq
+    # Analyze with Gemini
     try:
-        analysis = await analyze_with_ai(api_key, document_text, prompt)
+        analysis = await analyze_with_gemini(api_key, document_text, prompt)
     except ValueError as e:
         raise HTTPException(status_code=502, detail=f"AI Analysis Error: {str(e)}")
     except Exception as e:
-        raise HTTPException(status_code=502, detail=f"Groq API Error: {str(e)}")
+        raise HTTPException(status_code=502, detail=f"Gemini API Error: {str(e)}")
     
     # Generate downloadable files
     download_files = {}
@@ -129,6 +129,13 @@ async def download_file(filename: str):
     )
 
 
+from fastapi.staticfiles import StaticFiles
+
 @app.get("/health")
 async def health():
     return {"status": "ok", "service": "FinAgent AI"}
+
+# Mount the React frontend (this MUST be the very last route added)
+frontend_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "frontend", "dist")
+if os.path.isdir(frontend_path):
+    app.mount("/", StaticFiles(directory=frontend_path, html=True), name="frontend")
