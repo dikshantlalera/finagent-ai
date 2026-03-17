@@ -25,7 +25,7 @@ export function Navbar({ onOpenSettings }: NavbarProps) {
         </div>
 
         <Tooltip>
-          <TooltipTrigger asChild>
+          <TooltipTrigger>
             <Button
               variant="ghost"
               size="icon"
