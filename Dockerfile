@@ -10,7 +10,7 @@ WORKDIR /app
 
 # Install and build Frontend
 COPY frontend/package*.json ./frontend/
-RUN cd frontend && npm install
+RUN cd frontend && npm install --legacy-peer-deps
 COPY frontend/ ./frontend/
 RUN cd frontend && npm run build
 
