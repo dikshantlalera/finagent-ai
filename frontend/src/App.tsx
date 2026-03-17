@@ -17,10 +17,6 @@ function App() {
   const handleSend = useCallback(
     async (prompt: string, files: File[]) => {
       let apiKey = localStorage.getItem("finagent_api_key") || "";
-      if (!apiKey || apiKey.startsWith("AIzaSy")) {
-        // User must enter their Groq API key in the settings modal
-        apiKey = "";
-      }
       if (!apiKey) {
         setSettingsOpen(true);
         return;

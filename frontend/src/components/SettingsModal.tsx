@@ -40,7 +40,7 @@ export function SettingsModal({ open, onOpenChange }: SettingsModalProps) {
             API Settings
           </DialogTitle>
           <DialogDescription>
-            Enter your Groq API key to enable AI analysis.
+            Enter your Google Gemini or Groq API key to enable AI analysis.
           </DialogDescription>
         </DialogHeader>
 
@@ -48,7 +48,7 @@ export function SettingsModal({ open, onOpenChange }: SettingsModalProps) {
           <div className="relative">
             <Input
               type={showKey ? "text" : "password"}
-              placeholder="Enter your Groq API key..."
+              placeholder="Enter your API key..."
               value={apiKey}
               onChange={(e) => setApiKey(e.target.value)}
               className="pr-10 font-mono text-sm bg-background/50"
@@ -70,7 +70,7 @@ export function SettingsModal({ open, onOpenChange }: SettingsModalProps) {
             <ShieldCheck className="h-4 w-4 mt-0.5 text-emerald-500 shrink-0" />
             <span>
               Your API key is stored only in your browser's local storage and is
-              never sent to any server other than Groq's API.
+              never sent to any server other than the AI provider's API.
             </span>
           </div>
 
