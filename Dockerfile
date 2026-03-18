@@ -21,5 +21,6 @@ RUN cd backend && pip install --no-cache-dir -r requirements.txt
 # Copy the rest of the Backend code
 COPY backend/ ./backend/
 
-# Start the FastAPI server using the port provided by Railway
-CMD sh -c "uvicorn backend.main:app --host 0.0.0.0 --port ${PORT:-8000}"
+# Start the FastAPI server
+# We must cd into backend so that local imports (like pdf_extractor) work correctly
+CMD sh -c "cd backend && uvicorn main:app --host 0.0.0.0 --port ${PORT:-8080}"
