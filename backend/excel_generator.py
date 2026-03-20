@@ -203,6 +203,51 @@ def generate_excel(analysis: dict, output_dir: str) -> str:
     
     _auto_width(ws_dcf)
     
+    # --- Tab 5: Financial Ratios ---
+    ratios = analysis.get("ratios", {}) or {}
+    if ratios:
+        ws_ratios = wb.create_sheet("Financial Ratios")
+        ws_ratios.sheet_properties.tabColor = "F39C12"
+        
+        ws_ratios.cell(row=1, column=1, value="Ratio Category")
+        ws_ratios.cell(row=1, column=2, value="Ratio Name")
+        ws_ratios.cell(row=1, column=3, value="Value")
+        _style_header_row(ws_ratios, 1, 3)
+        
+        row = 2
+        categories = [
+            ("Profitability", "profitability"),
+            ("Liquidity", "liquidity"),
+            ("Leverage", "leverage"),
+            ("Efficiency", "efficiency"),
+        ]
+        
+        for cat_label, cat_key in categories:
+            items = ratios.get(cat_key, []) or []
+            if items:
+                # Add subheader for category
+                ws_ratios.cell(row=row, column=1, value=cat_label)
+                ws_ratios.merge_cells(start_row=row, start_column=1, end_row=row, end_column=3)
+                _style_subheader_row(ws_ratios, row, 3)
+                row += 1
+                
+                for i, item in enumerate(items):
+                    is_alt = i % 2 == 0
+                    ws_ratios.cell(row=row, column=1, value="") # Category column empty for items
+                    ws_ratios.cell(row=row, column=2, value=item.get("name"))
+                    
+                    val = item.get("value")
+                    unit = item.get("unit", "")
+                    display_val = f"{val}{unit}" if val is not None else "N/A"
+                    ws_ratios.cell(row=row, column=3, value=display_val)
+                    
+                    _style_data_cell(ws_ratios, row, 1, is_alt)
+                    _style_data_cell(ws_ratios, row, 2, is_alt)
+                    _style_data_cell(ws_ratios, row, 3, is_alt)
+                    row += 1
+        
+        _auto_width(ws_ratios)
+    
     # Save
     filename = f"{company.replace(' ', '_')}_analysis_{uuid.uuid4().hex[:8]}.xlsx"
     filepath = os.path.join(output_dir, filename)

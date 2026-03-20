@@ -8,7 +8,7 @@ from fastapi.responses import FileResponse
 from typing import List
 
 from pdf_extractor import extract_texts_from_pdfs
-from gemini_service import analyze_with_gemini
+from ai_service import analyze_with_ai
 from excel_generator import generate_excel
 from word_generator import generate_word_memo
 
@@ -70,7 +70,7 @@ async def analyze(
     
     # Analyze with Gemini
     try:
-        analysis = await analyze_with_gemini(api_key, document_text, prompt)
+        analysis = await analyze_with_ai(api_key, document_text, prompt)
     except ValueError as e:
         raise HTTPException(status_code=502, detail=f"AI Analysis Error: {str(e)}")
     except Exception as e:

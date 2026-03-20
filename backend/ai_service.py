@@ -51,7 +51,7 @@ SYSTEM_PROMPT = """You are a senior financial analyst. Analyze the provided fina
     ]
   },
   "ratios": {
-    "profitable": [{"name": "Gross Margin", "value": 44.1, "unit": "%"}],
+    "profitability": [{"name": "Gross Margin", "value": 44.1, "unit": "%"}],
     "liquidity": [{"name": "Current Ratio", "value": 1.07, "unit": "x"}],
     "leverage": [{"name": "Debt/Equity", "value": 1.8, "unit": "x"}],
     "efficiency": [{"name": "Asset Turnover", "value": 1.15, "unit": "x"}]
